@@ -1,7 +1,6 @@
-const { Session } = require("express-session");
-
-require("express");
-require("epress-session");
+const express = require("express");
+const session = require("express-session");
+require("dotenv").config();
 
 //Set up the server
 const app = express();
@@ -27,3 +26,8 @@ app.use(
     },
   })
 );
+
+//Getting the routes
+const login = require("./routes/login.js");
+
+app.use(login);
