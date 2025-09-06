@@ -13,6 +13,8 @@ router.post("/signup", (req, res) => {
     var password = req.body.password;
     var confirmPassword = req.body.confirmPassword;
 
+    console.log("'" + password + "'");
+
     if (password != confirmPassword) {
       //check if passwords match
       return res
@@ -57,20 +59,41 @@ router.post("/login", (req, res) => {
     var clientPassword;
 
     try {
-      clientPassword = await bcrypt.hash(req.body.password, saltRounds);
-      console.log("hashing successful");
-      console.log(email);
-      console.log(clientPassword);
-
-      // get and compare passwords
+      clientPassword = req.body.password;
       const connection = await connectionPromise;
-      var [dbPassword] = await connection
-        .query("select user_password from users where email = ?", [email])
-        .catch("Error accessing the database");
-      console.log(dbPassword);
-      res.send("status 200 ok");
+
+      //Check if email exists in database
+      var [dbUser] = await connection.query(
+        "select email from users where email = ?",
+        [email]
+      );
+      //if empty array is returned user doesnt exist
+      if (dbUser.length == 0) {
+        return res.json({
+          message:
+            "Sorry, account does not exist. Please sign up for an account",
+        });
+      }
+
+      // fetch from db and compare passwords
+      var [dbPassword] = await connection.query(
+        "select user_password from users where email = ?",
+        [email]
+      );
+
+      var safePassword = dbPassword[0].user_password;
+      var isMatch = await bcrypt.compare(clientPassword, safePassword);
+      if (isMatch) {
+        return res
+          .status(200)
+          .json({ message: "Access Granted.\n Correct password" });
+      } else {
+        return res
+          .status(400)
+          .json({ message: "Access Denied.\n Incorrect password" });
+      }
     } catch (err) {
-      console.error("Error occured: " + err);
+      console.error("Error occured while logging in: " + err.code + "\n" + err);
     }
   }
   main();
