@@ -11,9 +11,10 @@ router.post("/signup", (req, res) => {
   async function main() {
     var email = req.body.email;
     var password = req.body.password;
-    var confirmPassword = req.body.confirmPassword;
+    var confirmPassword = req.body["confirm-password"];
 
     console.log("'" + password + "'");
+    console.log("'" + confirmPassword + "'");
 
     if (password != confirmPassword) {
       //check if passwords match

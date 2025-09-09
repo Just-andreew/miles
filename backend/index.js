@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const cors = require("cors");
 require("dotenv").config();
 
 //Set up the server
@@ -10,6 +11,7 @@ app.listen(process.env.PORT || 5000, () => {
 
 app.use(express.json()); //Convert incoming json to js objects
 app.use(express.urlencoded({ extended: true })); //Handle url encoded data
+app.use(cors());
 
 //set session config
 app.use(

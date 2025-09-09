@@ -10,9 +10,10 @@ export default function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log({ form });
     try {
       // Placeholder backend call (will work once backend is ready)
-      const res = await fetch("http://localhost:5000/api/auth/signup", {
+      const res = await fetch("http://localhost:5000/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
@@ -21,7 +22,7 @@ export default function Signup() {
       setMessage(data.message || "Signup successful!");
       // eslint-disable-next-line no-unused-vars
     } catch (err) {
-      setMessage("Something went wrong.");
+      setMessage("Something went wrong." + err);
     }
   };
 
