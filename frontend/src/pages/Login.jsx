@@ -21,14 +21,14 @@ export default function Login() {
       if (data.token) {
         localStorage.setItem("token", data.token);
       }
-    // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
     } catch (err) {
       setMessage("Something went wrong.");
     }
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "2rem auto" }}>
+    <div style={{ width: "100%", margin: "2rem auto" }}>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
@@ -37,14 +37,16 @@ export default function Login() {
           placeholder="Email"
           onChange={handleChange}
           required
-        /><br />
+        />
+        <br />
         <input
           type="password"
           name="password"
           placeholder="Password"
           onChange={handleChange}
           required
-        /><br />
+        />
+        <br />
         <button type="submit">Login</button>
       </form>
       {message && <p>{message}</p>}

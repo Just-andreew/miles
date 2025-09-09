@@ -19,7 +19,7 @@ export default function Signup() {
       });
       const data = await res.json();
       setMessage(data.message || "Signup successful!");
-    // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
     } catch (err) {
       setMessage("Something went wrong.");
     }
@@ -30,26 +30,29 @@ export default function Signup() {
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          onChange={handleChange}
-          required
-        /><br />
-        <input
           type="email"
           name="email"
           placeholder="Email"
           onChange={handleChange}
           required
-        /><br />
+        />
+        <br />
         <input
           type="password"
           name="password"
           placeholder="Password"
           onChange={handleChange}
           required
-        /><br />
+        />
+        <br />
+        <input
+          type="password"
+          name="confirm-password"
+          placeholder="Confirm Password"
+          onChange={handleChange}
+          required
+        />
+        <br />
         <button type="submit">Sign Up</button>
       </form>
       {message && <p>{message}</p>}
