@@ -91,6 +91,8 @@ router.post("/login", (req, res) => {
         return res
           .status(400)
           .json({ message: "Access Denied.\n Incorrect password" });
+
+        // Create a new session for the user
       }
     } catch (err) {
       console.error("Error occured while logging in: " + err.code + "\n" + err);
