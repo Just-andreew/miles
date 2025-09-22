@@ -13,9 +13,6 @@ router.post("/signup", (req, res) => {
     var password = req.body.password;
     var confirmPassword = req.body["confirm-password"];
 
-    console.log("'" + password + "'");
-    console.log("'" + confirmPassword + "'");
-
     if (password != confirmPassword) {
       //check if passwords match
       return res
@@ -85,15 +82,18 @@ router.post("/login", (req, res) => {
       var safePassword = dbPassword[0].user_password;
       var isMatch = await bcrypt.compare(clientPassword, safePassword);
       if (isMatch) {
+        // Create a new session for the user
+        req.session.user = {
+          email,
+        };
+        console.log(req.session.user);
         return res
-          .status(200)
+          .redirect(200, "/users/profile")
           .json({ message: "Access Granted.\n Correct password" });
       } else {
         return res
           .status(400)
           .json({ message: "Access Denied.\n Incorrect password" });
-
-        // Create a new session for the user
       }
     } catch (err) {
       console.error("Error occured while logging in: " + err.code + "\n" + err);
